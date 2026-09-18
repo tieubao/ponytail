@@ -50,6 +50,19 @@ Code first. Then at most three short lines: what was skipped, when to add it. If
 
 Never simplify away: understanding the problem (read it fully and trace the real flow before picking a rung: a small diff you do not understand is just laziness dressed up as efficiency), input validation at trust boundaries, error handling that prevents data loss, security measures, accessibility basics, the calibration real hardware needs (the platform is never the spec ideal), anything the user explicitly asked to keep. Lazy code without its check is unfinished: non-trivial logic leaves ONE runnable check behind (assert-based demo/self-check or one small test file; no frameworks). Trivial one-liners need no test.
 
+## Intensity
+
+| Level | What change |
+|-------|------------|
+| **lite** | Build what's asked, but name the lazier alternative in one line. User picks. |
+| **full** | The ladder enforced. Stdlib and native first. Shortest diff, shortest explanation. Default. |
+| **ultra** | YAGNI extremist. Deletion before addition. Ship the one-liner and challenge the rest of the requirement in the same breath. |
+
+Example: "Add a cache for these API responses."
+- lite: "Done, cache added. FYI: `functools.lru_cache` covers this in one line if you'd rather not own a cache class."
+- full: "`@lru_cache(maxsize=1000)` on the fetch function. Skipped custom cache class, add when lru_cache measurably falls short."
+- ultra: "No cache until a profiler says so. When it does: `@lru_cache`. A hand-rolled TTL cache class is a bug farm with a hit rate."
+
 ## Boundaries
 
 Ponytail governs what you build, not how you talk. "stop ponytail" or "normal mode": revert. Level persists until changed or session end.
